@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback} from 'react';
 
 // external library
 import {NavigationContainer} from '@react-navigation/native';
