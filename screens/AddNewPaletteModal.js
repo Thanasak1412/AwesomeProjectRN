@@ -10,9 +10,6 @@ import {
   View,
 } from 'react-native';
 
-// utils
-import _ from 'lodash';
-
 // mocks
 import {COLORS} from '../__mock__/colors';
 
@@ -39,13 +36,10 @@ export default function AddNewPaletteModal({navigation, route}) {
 
   const onKeyExtractor = useCallback(color => color.colorName, []);
 
-  const handleSubmit = useCallback(() => {
-    validateForm();
-
-    navigation.navigate('Home', {
-      newPalette: {paletteName: name, colors: selectedColors},
-    });
-  }, [name, navigation, selectedColors, validateForm]);
+  const hasPaletteName = useCallback(
+    () => colorPalette.find(color => color.paletteName === name),
+    [colorPalette, name],
+  );
 
   const validateForm = useCallback(
     (isAlert = true) => {
@@ -65,10 +59,13 @@ export default function AddNewPaletteModal({navigation, route}) {
     [hasPaletteName, name, selectedColors],
   );
 
-  const hasPaletteName = useCallback(
-    () => colorPalette.find(color => color.paletteName === name),
-    [colorPalette, name],
-  );
+  const handleSubmit = useCallback(() => {
+    validateForm();
+
+    navigation.navigate('Home', {
+      newPalette: {paletteName: name, colors: selectedColors},
+    });
+  }, [name, navigation, selectedColors, validateForm]);
 
   useEffect(() => {
     !validateForm(false) ? setIsDisableButton(true) : setIsDisableButton(false);
